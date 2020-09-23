@@ -229,4 +229,7 @@ return [
 
     ],
 
+    'admins' => [
+        1 => 'admin@movies.loc'
+    ]
 ];

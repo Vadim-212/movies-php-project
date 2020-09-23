@@ -33,7 +33,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('movies.index') }}">Фильмы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('actors.index') }}">Актёры</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -55,6 +60,17 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(isset(config('app.admins')[auth()->user()->id]))
+                                        @if(config('app.admins')[auth()->user()->id] == auth()->user()->email)
+                                            <a class="dropdown-item" href="{{ route('countries.index') }}">
+                                                Список стран
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('genres.index') }}">
+                                                Список жанров
+                                            </a>
+                                        @endif
+                                    @endif
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
