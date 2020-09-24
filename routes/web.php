@@ -31,3 +31,4 @@ Route::resource('actors', \App\Http\Controllers\ActorController::class)
     ->only('index', 'show');
 
 Route::get('genres/{genre}/movies', [\App\Http\Controllers\MovieController::class, 'byGenre'])->name('genre.movies');
+Route::get('actors/{actor}/movies', [\App\Http\Controllers\MovieController::class, 'byActor'])->name('actor.movies');

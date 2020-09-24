@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieFormRequest;
+use App\Models\Actor;
 use App\Models\Country;
 use App\Models\Genre;
 use App\Models\Movie;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    protected $perPage = 5;
+    protected $perPage = 10;
 
     public function index()
     {
@@ -25,11 +26,19 @@ class MovieController extends Controller
 
     public function byGenre(Genre $genre) {
         $movies = $genre->movies()->latest()->paginate($this->perPage);
-        $table = $genre->getTable();
 
         return view('movies.by-genre', [
             'movies' => $movies,
             'genre' => $genre
+        ]);
+    }
+
+    public function byActor(Actor $actor) {
+        $movies = $actor->movies()->latest()->paginate($this->perPage);
+
+        return view('movies.by-actor', [
+            'movies' => $movies,
+            'actor' => $actor
         ]);
     }
 
@@ -38,22 +47,28 @@ class MovieController extends Controller
         $this->authorize('create', Movie::class);
         $countries = Country::query()->orderBy('name')->get();
         $genres = Genre::query()->orderBy('name')->get();
+        $actors = Actor::query()->orderBy('name')->get();
         return view('movies.form', [
             'countries' => $countries,
-            'genres' => $genres
+            'genres' => $genres,
+            'actors' => $actors
         ]);
     }
 
     public function store(MovieFormRequest $request)
     {
         $this->authorize('create', Movie::class);
-        $movie = Movie::query()->create($this->getData($request));
+        //dd($request->validated());
+        $data = $this->getData($request);
+        $movie = Movie::query()->create($data);
+        $movie->actors()->sync($data['actors']);
         return redirect()->route('movies.show', $movie);
     }
 
     public function show(Movie $movie)
     {
-        $this->authorize('view', $movie);
+        //$this->authorize('view', $movie);
+        //$movie->actors()->save(Actor::query()->find(1));
         return view('movies.show', [
             'movie' => $movie
         ]);
@@ -62,19 +77,23 @@ class MovieController extends Controller
     public function edit(Movie $movie)
     {
         $this->authorize('update', $movie);
-        $countries = Country::query()->orderBy('name');
-        $genres = Genre::query()->orderBy('name');
+        $countries = Country::query()->orderBy('name')->get();
+        $genres = Genre::query()->orderBy('name')->get();
+        $actors = Actor::query()->orderBy('name')->get();
         return view('movies.form', [
             'movie' => $movie,
             'countries' => $countries,
-            'genres' => $genres
+            'genres' => $genres,
+            'actors' => $actors
         ]);
     }
 
     public function update(MovieFormRequest $request, Movie $movie)
     {
         $this->authorize('update', $movie);
-        $movie->update($this->getData($request));
+        $data = $this->getData($request);
+        $movie->update($data);
+        $movie->actors()->sync($data['actors']);
         return redirect()->route('movies.show', $movie);
     }
 

@@ -35,10 +35,7 @@ class CountryController extends Controller
 
     public function show(Country $country)
     {
-        /*$this->authorize('view', $country);
-        return view('countries.show', [
-            'country' => $country
-        ]);*/
+        //
     }
 
     public function edit(Country $country)

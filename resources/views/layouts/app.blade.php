@@ -34,10 +34,18 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('movies.index') }}">Фильмы</a>
+                            <a class="nav-link left-menu-link" href="{{ route('movies.index') }}">
+{{--                                <div>--}}
+                                    Фильмы
+{{--                                </div>--}}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('actors.index') }}">Актёры</a>
+                            <a class="nav-link left-menu-link" href="{{ route('actors.index') }}">
+{{--                                <div>--}}
+                                    Актёры
+{{--                                </div>--}}
+                            </a>
                         </li>
                     </ul>
 

@@ -20,7 +20,8 @@ class MovieFormRequest extends FormRequest
             'year' => 'required|integer',
             'country_id' => 'required|exists:countries,id',
             'genre_id' => 'required|exists:genres,id',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image',
+            'actors' => ''
         ];
     }
 }

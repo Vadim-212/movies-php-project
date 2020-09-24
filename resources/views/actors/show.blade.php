@@ -1,10 +1,14 @@
-<?php
+@auth
+    <?php
     if(isset(config('app.admins')[auth()->user()->id])) {
         if(config('app.admins')[auth()->user()->id] == auth()->user()->email) {
             $isAdmin = true;
         }
     }
-    $isAdmin = $isAdmin ?? null;
+    ?>
+@endauth
+<?php
+$isAdmin = $isAdmin ?? null;
 ?>
 
 @extends('layouts.app')
@@ -31,28 +35,34 @@
 
     <hr style="border-style: dashed;">
 
-    @if($actor->image_path)
-        <img src="{{ Storage::url($actor->image_path) }}" alt="{{ $actor->name }}">
-        <hr style="border-style: dashed;">
-    @endif
-
+    <div>
     <div class="mb-3 d-flex">
         <div>
-            {{ $actor->date_of_birth }}
+            @if($actor->image_path)
+                <img src="{{ Storage::url($actor->image_path) }}" alt="{{ $actor->name }}"
+                     style="width: 200px; height: 300px;">
+            @else
+                <img src="{{ Storage::url('public/images/image_stub.png') }}" alt="image_stub"
+                     style="width: 200px; height: 300px;">
+            @endif
+        </div>
+        <div>
+            {{ \Carbon\Carbon::parse($actor->date_of_birth)->format('d.m.Y') }}
+            ({{ \Carbon\Carbon::parse($actor->date_of_birth)->diffInYears(today()->diffInYears())}})
         </div>
         <div class="ml-auto">
             {{ $actor->country->name }}
         </div>
     </div>
+        <div class="h3"><a href="{{ route('actor.movies', $actor) }}" class="badge badge-primary mr-3">
+            Фильмы актёра
+        </a></div>
 
-    <div class="card card-body lead">
-{{--        {!! nl2br($movie->description) !!}--}}
     </div>
 
     <hr style="border-style: dashed;">
-
     <div class="d-flex justify-content-end">
 
     </div>
-
 @endsection
+

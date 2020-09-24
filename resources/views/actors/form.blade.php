@@ -73,6 +73,23 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#movies-collapse" role="button"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        Фильмы
+                    </a>
+                    <div class="collapse" id="movies-collapse">
+                        <div class="card card-body">
+                            @foreach($movies as $movie)
+                                <div>
+                                    <input id="movie-{{ $movie->id }}" name="movies[]" type="checkbox" value="{{ $movie->id }}"
+                                        {{ ($actor) ? ($actor->movies()->find($movie->id)) ? 'checked' : '' : '' }}>
+                                    <label for="movie-{{ $movie->id }}">{{ $movie->name }}, {{ $movie->genre->name }} ({{ $movie->year }})</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                 <button class="btn btn-primary">{{ $actor ? 'Изменить' : 'Добавить' }}</button>
 
             </form>

@@ -99,6 +99,23 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#actors-collapse" role="button"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        Актёры
+                    </a>
+                    <div class="collapse" id="actors-collapse">
+                        <div class="card card-body">
+                            @foreach($actors as $actor)
+                                <div>
+                                    <input id="actor-{{ $actor->id }}" name="actors[]" type="checkbox" value="{{ $actor->id }}"
+                                            {{ ($movie) ? ($movie->actors()->find($actor->id)) ? 'checked' : '' : '' }}>
+                                    <label for="actor-{{ $actor->id }}">{{ $actor->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                 <button class="btn btn-primary">{{ $movie ? 'Изменить' : 'Добавить' }}</button>
 
             </form>

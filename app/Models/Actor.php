@@ -16,4 +16,8 @@ class Actor extends Model
     public function country() {
         return $this->belongsTo(Country::class);
     }
+
+    public function movies() {
+        return $this->belongsToMany(Movie::class, 'movie_actor');
+    }
 }

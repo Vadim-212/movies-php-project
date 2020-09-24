@@ -1,9 +1,13 @@
-<?php
-    if(isset(config('app.admins')[auth()->user()->id])) {
-        if(config('app.admins')[auth()->user()->id] == auth()->user()->email) {
-            $isAdmin = true;
+@auth
+    <?php
+        if(isset(config('app.admins')[auth()->user()->id])) {
+            if(config('app.admins')[auth()->user()->id] == auth()->user()->email) {
+                $isAdmin = true;
+            }
         }
-    }
+    ?>
+@endauth
+<?php
     $isAdmin = $isAdmin ?? null;
 ?>
 

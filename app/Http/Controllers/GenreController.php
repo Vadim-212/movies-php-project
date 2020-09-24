@@ -35,10 +35,7 @@ class GenreController extends Controller
 
     public function show(Genre $genre)
     {
-        /*$this->authorize('view', $country);
-        return view('countries.show', [
-            'country' => $country
-        ]);*/
+        //
     }
 
     public function edit(Genre $genre)

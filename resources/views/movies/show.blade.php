@@ -1,10 +1,14 @@
-<?php
+@auth
+    <?php
     if(isset(config('app.admins')[auth()->user()->id])) {
         if(config('app.admins')[auth()->user()->id] == auth()->user()->email) {
             $isAdmin = true;
         }
     }
-    $isAdmin = $isAdmin ?? null;
+    ?>
+@endauth
+<?php
+$isAdmin = $isAdmin ?? null;
 ?>
 
 @extends('layouts.app')
@@ -32,9 +36,14 @@
     <hr style="border-style: dashed;">
 
     @if($movie->image_path)
-        <img src="{{ Storage::url($movie->image_path) }}" alt="{{ $movie->name }}">
-        <hr style="border-style: dashed;">
+        <img src="{{ Storage::url($movie->image_path) }}" alt="{{ $movie->name }}"
+             style="width: 200px; height: 300px;">
+    @else
+        <img src="{{ Storage::url('public/images/image_stub.png') }}" alt="image_stub"
+             style="width: 200px; height: 300px;">
     @endif
+
+    <hr style="border-style: dashed;">
 
     <div class="mb-3 d-flex">
         <div>
@@ -47,6 +56,13 @@
 
     <div class="card card-body lead">
         {!! nl2br($movie->description) !!}
+        <div class="d-flex align-items-center">
+            @foreach($movie->actors as $actor)
+                <div>
+                    {{ $actor->name }},
+                </div>
+            @endforeach
+        </div>
     </div>
 
     <hr style="border-style: dashed;">

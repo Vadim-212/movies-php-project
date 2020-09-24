@@ -18,7 +18,7 @@ $isAdmin = $isAdmin ?? null;
     <div class="d-flex align-items-center mb-3">
 
         <h1 class="h3 mb-0">
-            Фильмы с жанром {{ $genre->name }}
+            Фильмы c участием {{ $actor->name }}
         </h1>
 
     </div>

@@ -38,7 +38,10 @@
     <hr style="border-style: dashed;" />
 
     <p class="mb-0">
-{{--        {{ Str::words($movie->description, 20) }}--}}
+        {{--        {{ Str::words(implode(', ', array_map(function($actor) { return $actor['name']; } ,$movie->actors->toArray())), 20) }}--}}
+        @foreach($actor->movies()->paginate(10) as $movie)
+            <a class="badge badge-primary" href="{{ route('movies.show', $movie) }}">{{ $movie->name }} ({{ $movie->year }})</a>
+        @endforeach
     </p>
 
     <div class="text-right">

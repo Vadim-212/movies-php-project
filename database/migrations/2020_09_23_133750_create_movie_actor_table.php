@@ -23,8 +23,6 @@ class CreateMovieActorTable extends Migration
             $table->foreignIdFor(\App\Models\Actor::class)
                 ->constrained()
                 ->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ActorFormRequest;
 use App\Models\Actor;
 use App\Models\Country;
+use App\Models\Movie;
 use Illuminate\Http\Request;
 
 class ActorController extends Controller
@@ -13,7 +14,7 @@ class ActorController extends Controller
     {
         $actors = Actor::query()
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('actors.index', [
             'actors' => $actors
@@ -24,21 +25,24 @@ class ActorController extends Controller
     {
         $this->authorize('create', Actor::class);
         $countries = Country::query()->orderBy('name')->get();
+        $movies = Movie::query()->orderBy('name')->get();
         return view('actors.form', [
-            'countries' => $countries
+            'countries' => $countries,
+            'movies' => $movies
         ]);
     }
 
     public function store(ActorFormRequest $request)
     {
         $this->authorize('create', Actor::class);
-        $actor = Actor::query()->create($this->getData($request));
+        $data = $this->getData($request);
+        $actor = Actor::query()->create($data);
+        $actor->movies()->sync($data['movies']);
         return redirect()->route('actors.show', $actor);
     }
 
     public function show(Actor $actor)
     {
-        $this->authorize('view', $actor);
         return view('actors.show', [
             'actor' => $actor
         ]);
@@ -47,17 +51,21 @@ class ActorController extends Controller
     public function edit(Actor $actor)
     {
         $this->authorize('update', $actor);
-        $countries = Country::query()->orderBy('name');
+        $countries = Country::query()->orderBy('name')->get();
+        $movies = Movie::query()->orderBy('name')->get();
         return view('actors.form', [
             'actor' => $actor,
-            'countries' => $countries
+            'countries' => $countries,
+            'movies' => $movies
         ]);
     }
 
     public function update(ActorFormRequest $request, Actor $actor)
     {
         $this->authorize('update', $actor);
-        $actor->update($this->getData($request));
+        $data = $this->getData($request);
+        $actor->update($data);
+        $actor->movies()->sync($data['movies']);
         return redirect()->route('actors.show', $actor);
     }
 

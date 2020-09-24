@@ -37,7 +37,16 @@
 
     <hr style="border-style: dashed;" />
 
-    <p class="mb-0">{{ Str::words($movie->description, 20) }}</p>
+    <p class="mb-0">
+        {{ Str::words($movie->description, 20) }}
+    </p>
+
+    <p class="mb-0">
+{{--        {{ Str::words(implode(', ', array_map(function($actor) { return $actor['name']; } ,$movie->actors->toArray())), 20) }}--}}
+        @foreach($movie->actors as $actor)
+            <a class="badge badge-primary" href="{{ route('actors.show', $actor) }}">{{ $actor->name }}</a>
+        @endforeach
+    </p>
 
     <div class="text-right">
         <a class="btn btn-primary" href="{{ route('movies.show', $movie) }}">
